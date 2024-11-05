@@ -5,10 +5,10 @@ class Perceptron:
     def __init__(self, x, y):
         self.x=x
         self.y=y
+        self.w = []
         #initialize weights as random numbers -0.5 - .0.5
-        self.w = [-0.5, 0.7, -0.2, 0.1, 0.9]
-       # for i in range(5):
-        #    self.w.append(random.randrange(-5,5)/10 )
+        for i in range(len(x)):
+            self.w.append(random.randrange(-5,5)/10 )
         self.alpha = 0.1
 
     def weighted_sum(self):
@@ -27,6 +27,7 @@ class Perceptron:
             e = self.alpha * (self.y - self.step())
             print(self.y, "-", self.step(), "=",e)
             if (e == 0):
+                print("output acheived")
                 return
             for i in range(len(self.x)):
                 self.w[i] = round(self.w[i] + (e * self.x[i]),2)
