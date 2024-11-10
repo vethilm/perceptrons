@@ -28,12 +28,11 @@ class Perceptron:
             print(self.y, "-", self.step(), "=",e)
             if (e == 0):
                 print("output acheived")
-                return
+                return self.w
             for i in range(len(self.x)):
                 self.w[i] = round(self.w[i] + (e * self.x[i]),2)
-
-            print("updated weights", self.w)
-
-    def test(self):
-        return
+    def test(self, weights):
+        self.w = weights
+        output = self.step()
+        return output
 
