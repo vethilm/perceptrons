@@ -2,17 +2,19 @@ import numpy as np
 import random
 
 class Perceptron:
-    def __init__(self, x, y):
+    def __init__(self, x, y, threshold):
         self.x=x
         #insert bias neuron at beginning of input array
-        self.x.insert(0,0)
+        self.x.insert(0,1)
         self.y=y
+        self.threshold = threshold
         self.w = []
         self.epochs = 0
         #initialize weights as random numbers -0.5 - .0.5
         for i in range(len(x)):
             self.w.append(random.randrange(-5,5)/10 )
         self.alpha = 0.1
+        self.trainingAccuracy = 0  
 
     #calculates the weighted sum of inputs
     def weighted_sum(self):
@@ -25,19 +27,26 @@ class Perceptron:
     
     # activation function 
     def step(self):
-        return 1 if self.weighted_sum() > 0 else -1 
+        return 1 if self.weighted_sum() > self.threshold else -1 
 
     # training method - changes weights until output is correct
-    def predict(self):
+    def train(self):
+        print("-----")
+        print("x:", self.x)
         while True:
+            output = self.step()
+            error = 0 if self.y == output else 1
+            print(self.y, output, error)
             e = self.alpha * (self.y - self.step())
-            if (e == 0):
+            if (error == 0):
+                self.trainingAccuracy+=1
                 return self.w
-            if(self.epochs >= 100):
+            if(self.epochs >= 10000):
                 return self.w
             for i in range(len(self.x)):
                 self.epochs+=1
                 self.w[i] = round(self.w[i] + (e * self.x[i]),2)
+            print(self.w)
     
     # test perceptron by getting output from trained weights 
     def test(self, weights):

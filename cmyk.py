@@ -11,29 +11,43 @@ def generateData(x):
         for j in range(len(cmyk)):
             cmyk[j] = random.randrange(0,100)
             sum+= cmyk[j]
-        data.append([cmyk, 0 if sum < 250 else 1])
+        data.append([cmyk, 1 if sum < 240 else -1])
     return data
         
-def train():
+def train(n):
     numInputs = 5
-    numTraining= 100
-    numTesting = 100
-
-    trainingData = generateData(numTraining)
-    testData =generateData(numTesting)
+    trainingData = generateData(n)
     avg_weights = [0,0,0,0,0]
-
+    trainingAccuracy=0
     for sample in trainingData:
-        print(sample)
-        p = P.Perceptron(sample[0],sample[1])
-        final_weights = p.predict()
-        print("Final Weights:" , final_weights)
+        p = P.Perceptron(sample[0],sample[1],0)
+        final_weights = p.train()
+        trainingAccuracy+= p.trainingAccuracy
         for w in range(5):
             avg_weights[w] += final_weights[w]
-        print("Final Weights:" , avg_weights)
     #get average weights
     for i in range(numInputs):
         avg_weights[i] = round(avg_weights[i]/numInputs,4)
+    return avg_weights, trainingAccuracy
 
-train()
-print("wtf")
+trainingSamples = 400
+trained_weights, trainingAccuracy = train(trainingSamples)
+print("Training Accuracy:",trainingAccuracy,"/",trainingSamples)
+
+def test(n,w):
+    testData =generateData(n)
+    totalError = 0
+    for sample in testData:
+        p = P.Perceptron(sample[0],sample[1],0)
+        # get output from testing with the trained weights
+        testOutput = p.test(w)
+        # calculate test error
+        testError = 1 if p.y == testOutput else -1
+        # calculate error
+        totalError += testError
+    print("Test Accuracy: ",n-totalError,"/",n, "=",round((n-totalError)/n,2))
+         
+
+test(100,trained_weights)
+
+
