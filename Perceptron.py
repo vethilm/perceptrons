@@ -4,8 +4,11 @@ import random
 class Perceptron:
     def __init__(self, x, y):
         self.x=x
+        #insert bias neuron at beginning of input array
+        self.x.insert(0,0)
         self.y=y
         self.w = []
+        self.epochs = 0
         #initialize weights as random numbers -0.5 - .0.5
         for i in range(len(x)):
             self.w.append(random.randrange(-5,5)/10 )
@@ -25,12 +28,15 @@ class Perceptron:
     def predict(self):
         while True:
             e = self.alpha * (self.y - self.step())
-            print(self.y, "-", self.step(), "=",e)
             if (e == 0):
-                print("output acheived")
+                return self.w
+            if(self.epochs >= 100):
                 return self.w
             for i in range(len(self.x)):
+                self.epochs+=1
                 self.w[i] = round(self.w[i] + (e * self.x[i]),2)
+
+            
     def test(self, weights):
         self.w = weights
         output = self.step()
