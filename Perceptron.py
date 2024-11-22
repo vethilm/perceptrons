@@ -14,6 +14,7 @@ class Perceptron:
             self.w.append(random.randrange(-5,5)/10 )
         self.alpha = 0.1
 
+    #calculates the weighted sum of inputs
     def weighted_sum(self):
         sum = 0
         for i in range(len(self.x)) :
@@ -22,9 +23,11 @@ class Perceptron:
        # sum = round(sum,1)
         return sum
     
+    # activation function 
     def step(self):
         return 1 if self.weighted_sum() > 0 else -1 
 
+    # training method - changes weights until output is correct
     def predict(self):
         while True:
             e = self.alpha * (self.y - self.step())
@@ -35,8 +38,8 @@ class Perceptron:
             for i in range(len(self.x)):
                 self.epochs+=1
                 self.w[i] = round(self.w[i] + (e * self.x[i]),2)
-
-            
+    
+    # test perceptron by getting output from trained weights 
     def test(self, weights):
         self.w = weights
         output = self.step()
