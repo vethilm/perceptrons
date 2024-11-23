@@ -20,7 +20,7 @@ def train(n):
     avg_weights = [0,0,0,0,0]
     trainingAccuracy=0
     for sample in trainingData:
-        p = P.Perceptron(sample[0],sample[1],0)
+        p = P.Perceptron(sample[0],sample[1],240)
         final_weights = p.train()
         trainingAccuracy+= p.trainingAccuracy
         for w in range(5):
@@ -30,7 +30,7 @@ def train(n):
         avg_weights[i] = round(avg_weights[i]/numInputs,4)
     return avg_weights, trainingAccuracy
 
-trainingSamples = 400
+trainingSamples = 1000
 trained_weights, trainingAccuracy = train(trainingSamples)
 print("Training Accuracy:",trainingAccuracy,"/",trainingSamples)
 
@@ -38,7 +38,7 @@ def test(n,w):
     testData =generateData(n)
     totalError = 0
     for sample in testData:
-        p = P.Perceptron(sample[0],sample[1],0)
+        p = P.Perceptron(sample[0],sample[1],240)
         # get output from testing with the trained weights
         testOutput = p.test(w)
         # calculate test error
@@ -48,6 +48,6 @@ def test(n,w):
     print("Test Accuracy: ",n-totalError,"/",n, "=",round((n-totalError)/n,2))
          
 
-test(100,trained_weights)
+test(400,trained_weights)
 
 

@@ -1,4 +1,3 @@
-import numpy as np
 import random
 
 class Perceptron:
@@ -31,13 +30,10 @@ class Perceptron:
 
     # training method - changes weights until output is correct
     def train(self):
-        print("-----")
-        print("x:", self.x)
         while True:
             output = self.step()
             error = 0 if self.y == output else 1
-            print(self.y, output, error)
-            e = self.alpha * (self.y - self.step())
+            #print(self.y, output, error)
             if (error == 0):
                 self.trainingAccuracy+=1
                 return self.w
@@ -45,8 +41,8 @@ class Perceptron:
                 return self.w
             for i in range(len(self.x)):
                 self.epochs+=1
-                self.w[i] = round(self.w[i] + (e * self.x[i]),2)
-            print(self.w)
+                delta = self.alpha *(self.y - output)*self.x[i]
+                self.w[i] = round(self.w[i] + (delta ),2)
     
     # test perceptron by getting output from trained weights 
     def test(self, weights):

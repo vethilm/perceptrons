@@ -13,11 +13,11 @@ def partition(index):
             y  = data['inputs'][i][1]
             # if index matches the test index, create perceptron object to use for testing
             if(index == testDataIndex):
-                test = P.Perceptron(x,y,0)
+                test = P.Perceptron(x,y,1)
             # otherwise  create a training object and train it
             else:
                 #create perceptron object with inputs and desired output
-                p = P.Perceptron(x,y,0)
+                p = P.Perceptron(x,y,1)
                 #get the weights from the perceptron
                 final_weights = p.train()
                 for w in range(numInputs):
@@ -29,7 +29,7 @@ def partition(index):
     testOutput = test.test(avg_weights)
     # calculate test error
     testError = 0 if test.y == testOutput else 1
-    print("Test Error: ",testError)
+    print("Partion Error: ",testError)
     return testError
 
 # run tests with partitions + calculate error
